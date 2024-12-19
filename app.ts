@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(
     cors({
-        origin: '*',
+        origin: 'https://malandragem4.netlify.app',
         methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
         allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
     }),
