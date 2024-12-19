@@ -7,7 +7,7 @@ const Conexao = mysql.createConnection({
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD,
     database: process.env.MYSQLDATABASE,
-    port: Number(process.env.MYSQLPORT),
+    port: Number(process.env.MYSQLPORT || 3306),
 });
 
 Conexao.connect(error => {
