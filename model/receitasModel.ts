@@ -78,7 +78,7 @@ class ReceitasModel {
     }
 
     totalReceitas() {
-        const sql = 'SELECT SUM(valor) AS total FROM receitas;';
+        const sql = 'SELECT SUM(valor) AS total FROM railway.receitas;';
         return new Promise((resolve, reject) => {
             Conexao.query(sql, (error, result) => {
                 if (error) {

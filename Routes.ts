@@ -7,9 +7,6 @@ const Routes = Router();
 Routes.post('/adicionarReceita', ControllerReceitas.createReceitas);
 Routes.post('/adicionarDespesa', ControllerDespesas.createDespesas);
 Routes.get('/receitas', ControllerReceitas.findReceitas);
-Routes.get('/teste', (req, res) => {
-    res.send('rota teste');
-});
 Routes.get('/despesas', ControllerDespesas.findDespesas);
 Routes.get('/totalDespesas', ControllerDespesas.totalDespesas);
 Routes.get('/totalReceitas', ControllerReceitas.totalReceitas);

@@ -20,8 +20,7 @@ class DespesasModel {
                         reject(error);
                     }
 
-                    const conversaoJSON = JSON.parse(JSON.stringify(result));
-                    return resolve(conversaoJSON);
+                    return resolve(result);
                 },
             );
         });
@@ -33,9 +32,7 @@ class DespesasModel {
                 if (error) {
                     reject(error);
                 }
-
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                return resolve(conversaoJSON);
+                return resolve(result);
             });
         });
     }
@@ -56,8 +53,7 @@ class DespesasModel {
                         reject(error);
                     }
 
-                    const conversaoJSON = JSON.parse(JSON.stringify(result));
-                    return resolve(conversaoJSON);
+                    return resolve(result);
                 },
             );
         });
@@ -70,22 +66,19 @@ class DespesasModel {
                     reject(error);
                 }
 
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                return resolve(conversaoJSON);
+                return resolve(result);
             });
         });
     }
 
     totalDespesas() {
-        const sql = 'SELECT SUM(valor) AS total FROM despesas;';
+        const sql = 'SELECT SUM(valor) AS total FROM railway.despesas;';
         return new Promise((resolve, reject) => {
             Conexao.query(sql, (error, result) => {
                 if (error) {
                     reject(error);
                 }
-
-                const conversaoJson = JSON.parse(JSON.stringify(result));
-                resolve(conversaoJson);
+                return resolve(result);
             });
         });
     }
