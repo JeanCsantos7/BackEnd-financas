@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: "https://controlefinanceiro7.netlify.app"
+    origin: "http://controlefinanceiro7.netlify.app"
 }));
 app.use(Routes);
 app.get('/', (req, res) => {
