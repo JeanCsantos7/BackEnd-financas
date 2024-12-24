@@ -8,14 +8,15 @@ const Conexao = mysql.createConnection({
     password: process.env.MYSQLPASSWORD,
     database: process.env.MYSQLDATABASE,
     port: Number(process.env.MYSQLPORT),
+    connectTimeout: 10000,
 });
 
 Conexao.connect(error => {
     if (error) {
-        console.error('Ocorreu um Erro ao conectar ao MySQL:', error);
+        console.error('Erro ao conectar ao MySQL:', error);
         return;
     }
-    console.log('A Conexão ao MySQL bem-sucedida');
+    console.log('Conexão ao MySQL bem-sucedida');
 });
 
 export default Conexao;
