@@ -23,35 +23,43 @@ Routes.post(
     cors(corsOptions),
     ControllerDespesas.createDespesas,
 );
-Routes.get('/receitas', cors(corsOptions), ControllerReceitas.findReceitas);
-Routes.get('/despesas', cors(corsOptions), ControllerDespesas.findDespesas);
 Routes.get(
-    '/totalDespesas',
+    'https://backend-financas-mauve.vercel.app/receitas',
+    cors(corsOptions),
+    ControllerReceitas.findReceitas,
+);
+Routes.get(
+    'https://backend-financas-mauve.vercel.app/despesas',
+    cors(corsOptions),
+    ControllerDespesas.findDespesas,
+);
+Routes.get(
+    'https://backend-financas-mauve.vercel.app/totalDespesas',
     cors(corsOptions),
     ControllerDespesas.totalDespesas,
 );
 Routes.get(
-    '/totalReceitas',
+    'https://backend-financas-mauve.vercel.app/totalReceitas',
     cors(corsOptions),
     ControllerReceitas.totalReceitas,
 );
 Routes.put(
-    '/atualizarReceita/:id',
+    'https://backend-financas-mauve.vercel.app/atualizarReceita/:id',
     cors(corsOptions),
     ControllerReceitas.updateReceitas,
 );
 Routes.put(
-    '/atualizarDespesa/:id',
+    'https://backend-financas-mauve.vercel.app/atualizarDespesa/:id',
     cors(corsOptions),
     ControllerDespesas.updateDespesas,
 );
 Routes.delete(
-    '/deletarReceita/:id',
+    'https://backend-financas-mauve.vercel.app/deletarReceita/:id',
     cors(corsOptions),
     ControllerReceitas.deleteReceitas,
 );
 Routes.delete(
-    '/deletarDespesa/:id',
+    'https://backend-financas-mauve.vercel.app/deletarDespesa/:id',
     cors(corsOptions),
     ControllerDespesas.deleteDespesas,
 );
