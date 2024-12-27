@@ -7,7 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(
     cors({
-        origin: 'https://controlefinanceiro7.netlify.app',
+        origin: 'https://backend-financas-mauve.vercel.app',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+        allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
     }),
 );
 app.use(Routes);
