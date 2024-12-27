@@ -14,14 +14,6 @@ app.use(
     }),
 );
 
-app.use(
-    cors({
-        origin: 'https://controlefinanceiro7.netlify.app',
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
-    }),
-);
-
 app.use(Routes);
 app.get('/', (req, res) => {
     res.send('Hello World');
