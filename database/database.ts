@@ -13,7 +13,8 @@ const Conexao = mysql.createConnection({
 
 Conexao.connect(error => {
     if (error) {
-        console.error('Deu um  Erro ao conectar ao MySQL:', error);
+        console.error('Erro ao conectar ao MySQL:', error.code); // Exibe o código do erro
+        console.error('Erro completo:', error); // Exibe detalhes completos
         return;
     }
     console.log('Conexão ao MySQL bem-sucedida');
