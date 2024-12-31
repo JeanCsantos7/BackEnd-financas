@@ -17,9 +17,13 @@ class DespesasModel {
                 bodyDetail.valor,
                 bodyDetail.categoria,
             ]);
+            if (!(result as any).affectedRows) {
+                throw new Error('Erro ao criar despesa.');
+            }
             return result;
         } catch (error) {
-            throw error;
+            console.error('Erro ao criar despesa:', error);
+            throw new Error('Falha ao criar despesa no banco de dados.');
         }
     }
 
@@ -27,9 +31,13 @@ class DespesasModel {
         const sql = 'SELECT * FROM despesas';
         try {
             const [result] = await Conexao.query(sql);
+            if (Array.isArray(result) && result.length === 0) {
+                throw new Error('Nenhuma despesa encontrada.');
+            }
             return result;
         } catch (error) {
-            throw error;
+            console.error('Erro ao buscar despesas:', error);
+            throw new Error('Falha ao buscar despesas no banco de dados.');
         }
     }
 
@@ -43,9 +51,13 @@ class DespesasModel {
                 bodyDetail.categoria,
                 idParams,
             ]);
+            if ((result as any).affectedRows === 0) {
+                throw new Error('Despesa não encontrada para atualização.');
+            }
             return result;
         } catch (error) {
-            throw error;
+            console.error('Erro ao atualizar despesa:', error);
+            throw new Error('Falha ao atualizar despesa no banco de dados.');
         }
     }
 
@@ -53,9 +65,13 @@ class DespesasModel {
         const sql = 'DELETE FROM despesas WHERE id = ?';
         try {
             const [result] = await Conexao.query(sql, [idParam]);
+            if ((result as any).affectedRows === 0) {
+                throw new Error('Despesa não encontrada para exclusão.');
+            }
             return result;
         } catch (error) {
-            throw error;
+            console.error('Erro ao excluir despesa:', error);
+            throw new Error('Falha ao excluir despesa no banco de dados.');
         }
     }
 
@@ -63,9 +79,13 @@ class DespesasModel {
         const sql = 'SELECT SUM(valor) AS total FROM despesas';
         try {
             const [result] = await Conexao.query(sql);
-            return result;
+            if ((result as any)[0].total === null) {
+                throw new Error('Não há despesas registradas.');
+            }
+            return (result as any)[0].total;
         } catch (error) {
-            throw error;
+            console.error('Erro ao calcular total de despesas:', error);
+            throw new Error('Falha ao calcular total de despesas.');
         }
     }
 }

@@ -5,13 +5,13 @@ dotenv.config();
 const Conexao = mysql.createPool({
     host: process.env.MYSQLHOST || 'localhost',
     user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD || 'Sccp1910',
+    password: process.env.MYSQLPASSWORD,
     database: process.env.MYSQLDATABASE || 'bd_controlegastos',
     port: Number(process.env.MYSQLPORT) || 3306,
-    connectTimeout: 70000,
+    connectTimeout: 5000, // 5 segundos é um valor mais razoável
     waitForConnections: true,
-    connectionLimit: 10, // Número máximo de conexões simultâneas
-    queueLimit: 0, // Sem limite na fila de requisições
+    connectionLimit: 10,
+    queueLimit: 50, // Limita a fila de requisições
 });
 
 export default Conexao;
