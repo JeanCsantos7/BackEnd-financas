@@ -1,22 +1,18 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const Conexao = mysql.createConnection({
-    host: process.env.MYSQLHOST,
+// Criação do pool de conexões
+const Conexao = mysql.createPool({
+    host: process.env.MYSQLHOST || 'localhost',
     user: process.env.MYSQLUSER,
-    password: process.env.MYSQLPASSWORD,
-    database: process.env.MYSQLDATABASE,
-    port: Number(process.env.MYSQLPORT),
+    password: process.env.MYSQLPASSWORD || 'Sccp1910',
+    database: process.env.MYSQLDATABASE || 'bd_controlegastos',
+    port: Number(process.env.MYSQLPORT) || 3306,
     connectTimeout: 70000,
-});
-
-Conexao.connect(error => {
-    if (error) {
-        console.error('Deu um  Erro ao conectar ao MySQL:', error);
-        return;
-    }
-    console.log('Conexão ao MySQL bem-sucedida');
+    waitForConnections: true,
+    connectionLimit: 10, // Número máximo de conexões simultâneas
+    queueLimit: 0, // Sem limite na fila de requisições
 });
 
 export default Conexao;

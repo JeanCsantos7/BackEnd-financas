@@ -7,7 +7,7 @@ const Routes = Router();
 
 // CORS específico para as rotas
 const corsOptions = {
-    origin: 'https://controlefinanceiro7.netlify.app', // Defina sua origem permitida
+    origin: '*', // Defina sua origem permitida
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
 };
