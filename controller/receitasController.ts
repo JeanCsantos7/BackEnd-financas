@@ -10,7 +10,6 @@ class ControllerReceitas {
             res.json(createEntradas);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Erro ao criar entrada.' });
         }
     }
 
@@ -20,7 +19,6 @@ class ControllerReceitas {
             res.json(findReceitas);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Erro ao buscar receitas.' });
         }
     }
 
@@ -35,18 +33,16 @@ class ControllerReceitas {
             res.json(updateModel);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Erro ao atualizar receita.' });
         }
     }
 
     async deleteReceitas(req: Request, res: Response) {
         try {
             const idParams = parseInt(req.params.id);
-            const deleteModel = await ReceitasModel.deleteReceitas(idParams); // Adicionado o await
+            const deleteModel = ReceitasModel.deleteReceitas(idParams);
             res.json(deleteModel);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Erro ao excluir receita.' });
         }
     }
 
@@ -56,9 +52,6 @@ class ControllerReceitas {
             res.json(totalReceita);
         } catch (error) {
             console.error(error);
-            res.status(500).json({
-                message: 'Erro ao calcular total de receitas.',
-            });
         }
     }
 }
