@@ -10,33 +10,36 @@ interface Dados {
 class DespesasModel {
     createDespesas(bodyDetail: Dados) {
         const sql =
-            'INSERT INTO despesas (descricao, valor, categoria) VALUES(?,?,?)';
+            'INSERT INTO despesas (descricao, valor, categoria) VALUES(?, ?, ?)';
         return new Promise((resolve, reject) => {
             Conexao.query(
                 sql,
                 [bodyDetail.descricao, bodyDetail.valor, bodyDetail.categoria],
                 (error, result) => {
                     if (error) {
-                        reject(error);
+                        return reject(error);
                     }
 
-                    return resolve(result);
+                    return resolve(result); // Retorna diretamente o resultado
                 },
             );
         });
     }
+
     findDespesas() {
         const sql = 'SELECT * FROM despesas';
         return new Promise((resolve, reject) => {
             Conexao.query(sql, (error, result) => {
                 if (error) {
-                    reject(error);
+                    return reject(error);
                 }
-                return resolve(result);
+
+                return resolve(result); // Retorna diretamente o resultado
             });
         });
     }
-    updateDespesas(bodyDetail: Dados, idParams: Number) {
+
+    updateDespesas(bodyDetail: Dados, idParams: number) {
         const sql =
             'UPDATE despesas SET descricao=?, valor=?, categoria=? WHERE id=?';
         return new Promise((resolve, reject) => {
@@ -50,23 +53,24 @@ class DespesasModel {
                 ],
                 (error, result) => {
                     if (error) {
-                        reject(error);
+                        return reject(error);
                     }
 
-                    return resolve(result);
+                    return resolve(result); // Retorna diretamente o resultado
                 },
             );
         });
     }
-    deleteDespesas(idParam: Number) {
+
+    deleteDespesas(idParam: number) {
+        const sql = 'DELETE FROM despesas WHERE id=?';
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM despesas WHERE id=?';
             Conexao.query(sql, idParam, (error, result) => {
                 if (error) {
-                    reject(error);
+                    return reject(error);
                 }
 
-                return resolve(result);
+                return resolve(result); // Retorna diretamente o resultado
             });
         });
     }
@@ -76,9 +80,10 @@ class DespesasModel {
         return new Promise((resolve, reject) => {
             Conexao.query(sql, (error, result) => {
                 if (error) {
-                    reject(error);
+                    return reject(error);
                 }
-                return resolve(result);
+
+                return resolve(result); // Retorna diretamente o resultado
             });
         });
     }

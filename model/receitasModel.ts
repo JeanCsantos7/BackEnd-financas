@@ -19,8 +19,7 @@ class ReceitasModel {
                         return reject(error);
                     }
 
-                    const conversaoJSON = JSON.parse(JSON.stringify(result));
-                    return resolve(conversaoJSON);
+                    return resolve(result); // O result já é um objeto, não precisa de JSON.parse
                 },
             );
         });
@@ -34,8 +33,7 @@ class ReceitasModel {
                     return reject(error);
                 }
 
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                return resolve(conversaoJSON);
+                return resolve(result); // O result já é um objeto
             });
         });
     }
@@ -54,25 +52,24 @@ class ReceitasModel {
                 ],
                 (error, result) => {
                     if (error) {
-                        reject(error);
+                        return reject(error);
                     }
 
-                    const conversaoJSON = JSON.parse(JSON.stringify(result));
-                    return resolve(conversaoJSON);
+                    return resolve(result); // O result já é um objeto
                 },
             );
         });
     }
+
     deleteReceitas(idParams: number) {
         const sql = 'DELETE FROM receitas WHERE id=?';
         return new Promise((resolve, reject) => {
             Conexao.query(sql, idParams, (error, result) => {
                 if (error) {
-                    reject(error);
+                    return reject(error);
                 }
 
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                resolve(conversaoJSON);
+                return resolve(result); // O result já é um objeto
             });
         });
     }
@@ -82,11 +79,10 @@ class ReceitasModel {
         return new Promise((resolve, reject) => {
             Conexao.query(sql, (error, result) => {
                 if (error) {
-                    reject(error);
+                    return reject(error);
                 }
 
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                resolve(conversaoJSON);
+                return resolve(result); // O result já é um objeto
             });
         });
     }
