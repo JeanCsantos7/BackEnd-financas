@@ -2,7 +2,6 @@ import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Criação do pool de conexões
 const Conexao = mysql.createPool({
     host: process.env.MYSQLHOST || 'localhost',
     user: process.env.MYSQLUSER,
