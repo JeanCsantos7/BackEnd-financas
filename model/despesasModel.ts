@@ -8,84 +8,57 @@ interface Dados {
 }
 
 class DespesasModel {
-    createDespesas(bodyDetail: Dados) {
+    // Método para executar as queries
+    private executarQuery(sql: string, parametros: any[] = []): Promise<any> {
+        return new Promise((resolve, reject) => {
+            Conexao.query(sql, parametros, (error, result) => {
+                if (error) {
+                    return reject(error);
+                }
+                return resolve(result);
+            });
+        });
+    }
+
+    // Criar despesa
+    async createDespesas(bodyDetail: Dados) {
         const sql =
             'INSERT INTO despesas (descricao, valor, categoria) VALUES(?, ?, ?)';
-        return new Promise((resolve, reject) => {
-            Conexao.query(
-                sql,
-                [bodyDetail.descricao, bodyDetail.valor, bodyDetail.categoria],
-                (error, result) => {
-                    if (error) {
-                        return reject(error);
-                    }
-
-                    return resolve(result); // Retorna diretamente o resultado
-                },
-            );
-        });
+        return await this.executarQuery(sql, [
+            bodyDetail.descricao,
+            bodyDetail.valor,
+            bodyDetail.categoria,
+        ]);
     }
 
-    findDespesas() {
+    // Buscar despesas
+    async findDespesas() {
         const sql = 'SELECT * FROM despesas';
-        return new Promise((resolve, reject) => {
-            Conexao.query(sql, (error, result) => {
-                if (error) {
-                    return reject(error);
-                }
-
-                return resolve(result); // Retorna diretamente o resultado
-            });
-        });
+        return await this.executarQuery(sql);
     }
 
-    updateDespesas(bodyDetail: Dados, idParams: number) {
+    // Atualizar despesa
+    async updateDespesas(bodyDetail: Dados, idParams: number) {
         const sql =
             'UPDATE despesas SET descricao=?, valor=?, categoria=? WHERE id=?';
-        return new Promise((resolve, reject) => {
-            Conexao.query(
-                sql,
-                [
-                    bodyDetail.descricao,
-                    bodyDetail.valor,
-                    bodyDetail.categoria,
-                    idParams,
-                ],
-                (error, result) => {
-                    if (error) {
-                        return reject(error);
-                    }
-
-                    return resolve(result); // Retorna diretamente o resultado
-                },
-            );
-        });
+        return await this.executarQuery(sql, [
+            bodyDetail.descricao,
+            bodyDetail.valor,
+            bodyDetail.categoria,
+            idParams,
+        ]);
     }
 
-    deleteDespesas(idParam: number) {
+    // Deletar despesa
+    async deleteDespesas(idParam: number) {
         const sql = 'DELETE FROM despesas WHERE id=?';
-        return new Promise((resolve, reject) => {
-            Conexao.query(sql, idParam, (error, result) => {
-                if (error) {
-                    return reject(error);
-                }
-
-                return resolve(result); // Retorna diretamente o resultado
-            });
-        });
+        return await this.executarQuery(sql, [idParam]);
     }
 
-    totalDespesas() {
-        const sql = 'SELECT SUM(valor) AS total FROM railway.despesas;';
-        return new Promise((resolve, reject) => {
-            Conexao.query(sql, (error, result) => {
-                if (error) {
-                    return reject(error);
-                }
-
-                return resolve(result); // Retorna diretamente o resultado
-            });
-        });
+    // Total das despesas
+    async totalDespesas() {
+        const sql = 'SELECT SUM(valor) AS total FROM despesas';
+        return await this.executarQuery(sql);
     }
 }
 
