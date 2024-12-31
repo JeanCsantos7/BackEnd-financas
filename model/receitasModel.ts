@@ -7,65 +7,88 @@ interface Dados {
 }
 
 class ReceitasModel {
-    async createEntradas(bodyDetail: Dados) {
+    createEntradas(bodyDetail: Dados) {
         const sql =
-            'INSERT INTO receitas (descricao, valor, categoria) VALUES (?, ?, ?)';
-        try {
-            const [result] = await Conexao.query(sql, [
-                bodyDetail.descricao,
-                bodyDetail.valor,
-                bodyDetail.categoria,
-            ]);
-            return JSON.parse(JSON.stringify(result));
-        } catch (error) {
-            throw error;
-        }
+            'INSERT INTO receitas (descricao, valor, categoria) VALUES(?, ?, ?)';
+        return new Promise((resolve, reject) => {
+            Conexao.query(
+                sql,
+                [bodyDetail.descricao, bodyDetail.valor, bodyDetail.categoria],
+                (error, result) => {
+                    if (error) {
+                        return reject(error);
+                    }
+
+                    const conversaoJSON = JSON.parse(JSON.stringify(result));
+                    return resolve(conversaoJSON);
+                },
+            );
+        });
     }
 
-    async findReceitas() {
+    findReceitas() {
         const sql = 'SELECT * FROM receitas';
-        try {
-            const [result] = await Conexao.query(sql);
-            return JSON.parse(JSON.stringify(result));
-        } catch (error) {
-            throw error;
-        }
+        return new Promise((resolve, reject) => {
+            Conexao.query(sql, (error, result) => {
+                if (error) {
+                    return reject(error);
+                }
+
+                const conversaoJSON = JSON.parse(JSON.stringify(result));
+                return resolve(conversaoJSON);
+            });
+        });
     }
 
-    async updateReceitas(bodyDetail: Dados, idParams: number) {
+    updateReceitas(bodyDetail: Dados, idParams: number) {
         const sql =
-            'UPDATE receitas SET descricao = ?, valor = ?, categoria = ? WHERE id = ?';
-        try {
-            const [result] = await Conexao.query(sql, [
-                bodyDetail.descricao,
-                bodyDetail.valor,
-                bodyDetail.categoria,
-                idParams,
-            ]);
-            return JSON.parse(JSON.stringify(result));
-        } catch (error) {
-            throw error;
-        }
+            'UPDATE receitas SET descricao=?, valor=?, categoria=? WHERE id=?';
+        return new Promise((resolve, reject) => {
+            Conexao.query(
+                sql,
+                [
+                    bodyDetail.descricao,
+                    bodyDetail.valor,
+                    bodyDetail.categoria,
+                    idParams,
+                ],
+                (error, result) => {
+                    if (error) {
+                        reject(error);
+                    }
+
+                    const conversaoJSON = JSON.parse(JSON.stringify(result));
+                    return resolve(conversaoJSON);
+                },
+            );
+        });
+    }
+    deleteReceitas(idParams: number) {
+        const sql = 'DELETE FROM receitas WHERE id=?';
+        return new Promise((resolve, reject) => {
+            Conexao.query(sql, idParams, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
+
+                const conversaoJSON = JSON.parse(JSON.stringify(result));
+                resolve(conversaoJSON);
+            });
+        });
     }
 
-    async deleteReceitas(idParams: number) {
-        const sql = 'DELETE FROM receitas WHERE id = ?';
-        try {
-            const [result] = await Conexao.query(sql, [idParams]);
-            return JSON.parse(JSON.stringify(result));
-        } catch (error) {
-            throw error;
-        }
-    }
+    totalReceitas() {
+        const sql = 'SELECT SUM(valor) AS total FROM railway.receitas;';
+        return new Promise((resolve, reject) => {
+            Conexao.query(sql, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
 
-    async totalReceitas() {
-        const sql = 'SELECT SUM(valor) AS total FROM receitas';
-        try {
-            const [result] = await Conexao.query(sql);
-            return JSON.parse(JSON.stringify(result));
-        } catch (error) {
-            throw error;
-        }
+                const conversaoJSON = JSON.parse(JSON.stringify(result));
+                resolve(conversaoJSON);
+            });
+        });
     }
 }
 
