@@ -8,7 +8,10 @@ app.use(express.json());
 
 // Configurações CORS
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://meusite.com'], // Permite apenas essas origens
+    origin: [
+        'http://localhost:3000',
+        'https://controlefinanceiro7.netlify.app/',
+    ], // Permite apenas essas origens
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
     credentials: true, // Se precisar de credenciais

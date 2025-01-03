@@ -1,28 +1,30 @@
-import mysql from 'mysql2';
+import mysql from 'mysql2/promise'; // Importa a versão com suporte a Promises
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Cria o pool de conexões
+// Cria o pool de conexões com as melhores práticas
 const pool = mysql.createPool({
     host: process.env.MYSQLHOST || 'localhost',
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD || 'Sccp1910',
     database: process.env.MYSQLDATABASE || 'bd_controlegastos',
     port: Number(process.env.MYSQLPORT),
-    waitForConnections: true, // Aguarda conexões caso todas estejam ocupadas
-    connectionLimit: 10, // Limite de conexões simultâneas no pool
-    queueLimit: 0, // Sem limite de fila para requisições pendentes
+    waitForConnections: true,
+    connectionLimit: 20,
+    queueLimit: 0,
+    connectTimeout: 10000, // Timeout de 10 segundos para conexões
 });
 
-// Testa a conexão inicial
-pool.getConnection((error, connection) => {
-    if (error) {
-        console.error('Deu um erro ao conectar ao MySQL:', error);
-        return;
+// Testa a conexão inicial com async/await
+(async () => {
+    try {
+        const connection = await pool.getConnection(); // Solicita uma conexão
+        console.log('Conexão ao MySQL bem-sucedida');
+        connection.release(); // Libera a conexão de volta para o pool
+    } catch (error) {
+        console.error('Erro ao conectar ao MySQL:', error);
     }
-    console.log('Conexão ao MySQL bem-sucedida');
-    connection.release(); // Libera a conexão de volta para o pool
-});
+})();
 
 export default pool;

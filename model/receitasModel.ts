@@ -7,89 +7,70 @@ interface Dados {
 }
 
 class ReceitasModel {
-    createEntradas(bodyDetail: Dados) {
+    // Cria uma nova entrada de receita
+    async createEntradas(bodyDetail: Dados) {
         const sql =
             'INSERT INTO receitas (descricao, valor, categoria) VALUES(?, ?, ?)';
-        return new Promise((resolve, reject) => {
-            pool.query(
-                sql,
-                [bodyDetail.descricao, bodyDetail.valor, bodyDetail.categoria],
-                (error, result) => {
-                    if (error) {
-                        return reject(error);
-                    }
-
-                    const conversaoJSON = JSON.parse(JSON.stringify(result));
-                    return resolve(conversaoJSON);
-                },
-            );
-        });
+        try {
+            const [result] = await pool.execute(sql, [
+                bodyDetail.descricao,
+                bodyDetail.valor,
+                bodyDetail.categoria,
+            ]);
+            return JSON.parse(JSON.stringify(result)); // Converte para JSON se necessário
+        } catch (error) {
+            throw error;
+        }
     }
 
-    findReceitas() {
+    // Busca todas as receitas
+    async findReceitas() {
         const sql = 'SELECT * FROM receitas';
-        return new Promise((resolve, reject) => {
-            pool.query(sql, (error, result) => {
-                if (error) {
-                    return reject(error);
-                }
-
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                return resolve(conversaoJSON);
-            });
-        });
+        try {
+            const [result] = await pool.execute(sql);
+            return JSON.parse(JSON.stringify(result)); // Converte para JSON se necessário
+        } catch (error) {
+            throw error;
+        }
     }
 
-    updateReceitas(bodyDetail: Dados, idParams: number) {
+    // Atualiza uma receita existente
+    async updateReceitas(bodyDetail: Dados, idParams: number) {
         const sql =
             'UPDATE receitas SET descricao=?, valor=?, categoria=? WHERE id=?';
-        return new Promise((resolve, reject) => {
-            pool.query(
-                sql,
-                [
-                    bodyDetail.descricao,
-                    bodyDetail.valor,
-                    bodyDetail.categoria,
-                    idParams,
-                ],
-                (error, result) => {
-                    if (error) {
-                        reject(error);
-                    }
-
-                    const conversaoJSON = JSON.parse(JSON.stringify(result));
-                    return resolve(conversaoJSON);
-                },
-            );
-        });
+        try {
+            const [result] = await pool.execute(sql, [
+                bodyDetail.descricao,
+                bodyDetail.valor,
+                bodyDetail.categoria,
+                idParams,
+            ]);
+            return JSON.parse(JSON.stringify(result)); // Converte para JSON se necessário
+        } catch (error) {
+            throw error;
+        }
     }
 
-    deleteReceitas(idParams: number) {
+    // Deleta uma receita
+    async deleteReceitas(idParams: number) {
         const sql = 'DELETE FROM receitas WHERE id=?';
-        return new Promise((resolve, reject) => {
-            pool.query(sql, idParams, (error, result) => {
-                if (error) {
-                    reject(error);
-                }
-
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                resolve(conversaoJSON);
-            });
-        });
+        try {
+            const [result] = await pool.execute(sql, [idParams]);
+            return JSON.parse(JSON.stringify(result)); // Converte para JSON se necessário
+        } catch (error) {
+            throw error;
+        }
     }
 
-    totalReceitas() {
-        const sql = 'SELECT SUM(valor) AS total FROM railway.receitas;';
-        return new Promise((resolve, reject) => {
-            pool.query(sql, (error, result) => {
-                if (error) {
-                    reject(error);
-                }
-
-                const conversaoJSON = JSON.parse(JSON.stringify(result));
-                resolve(conversaoJSON);
-            });
-        });
+    // Calcula o total das receitas
+    async totalReceitas() {
+        const sql = 'SELECT SUM(valor) AS total FROM receitas';
+        try {
+            const [result] = await pool.execute(sql);
+            return JSON.parse(JSON.stringify(result)); // Converte para JSON se necessário
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

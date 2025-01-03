@@ -8,79 +8,70 @@ interface Dados {
 }
 
 class DespesasModel {
-    createDespesas(bodyDetail: Dados) {
+    // Cria uma nova despesa
+    async createDespesas(bodyDetail: Dados) {
         const sql =
             'INSERT INTO despesas (descricao, valor, categoria) VALUES(?,?,?)';
-        return new Promise((resolve, reject) => {
-            pool.query(
-                sql,
-                [bodyDetail.descricao, bodyDetail.valor, bodyDetail.categoria],
-                (error, result) => {
-                    if (error) {
-                        reject(error);
-                    }
-                    return resolve(result);
-                },
-            );
-        });
+        try {
+            const [result] = await pool.execute(sql, [
+                bodyDetail.descricao,
+                bodyDetail.valor,
+                bodyDetail.categoria,
+            ]);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    findDespesas() {
+    // Busca todas as despesas
+    async findDespesas() {
         const sql = 'SELECT * FROM despesas';
-        return new Promise((resolve, reject) => {
-            pool.query(sql, (error, result) => {
-                if (error) {
-                    reject(error);
-                }
-                return resolve(result);
-            });
-        });
+        try {
+            const [result] = await pool.execute(sql);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    updateDespesas(bodyDetail: Dados, idParams: number) {
+    // Atualiza uma despesa existente
+    async updateDespesas(bodyDetail: Dados, idParams: number) {
         const sql =
             'UPDATE despesas SET descricao=?, valor=?, categoria=? WHERE id=?';
-        return new Promise((resolve, reject) => {
-            pool.query(
-                sql,
-                [
-                    bodyDetail.descricao,
-                    bodyDetail.valor,
-                    bodyDetail.categoria,
-                    idParams,
-                ],
-                (error, result) => {
-                    if (error) {
-                        reject(error);
-                    }
-                    return resolve(result);
-                },
-            );
-        });
+        try {
+            const [result] = await pool.execute(sql, [
+                bodyDetail.descricao,
+                bodyDetail.valor,
+                bodyDetail.categoria,
+                idParams,
+            ]);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    deleteDespesas(idParam: number) {
+    // Deleta uma despesa
+    async deleteDespesas(idParam: number) {
         const sql = 'DELETE FROM despesas WHERE id=?';
-        return new Promise((resolve, reject) => {
-            pool.query(sql, [idParam], (error, result) => {
-                if (error) {
-                    reject(error);
-                }
-                return resolve(result);
-            });
-        });
+        try {
+            const [result] = await pool.execute(sql, [idParam]);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 
-    totalDespesas() {
-        const sql = 'SELECT SUM(valor) AS total FROM railway.despesas;';
-        return new Promise((resolve, reject) => {
-            pool.query(sql, (error, result) => {
-                if (error) {
-                    reject(error);
-                }
-                return resolve(result);
-            });
-        });
+    // Calcula o total das despesas
+    async totalDespesas() {
+        const sql = 'SELECT SUM(valor) AS total FROM despesas';
+        try {
+            const [result] = await pool.execute(sql);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
