@@ -13,7 +13,7 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 20,
     queueLimit: 0,
-    connectTimeout: 10000, // Timeout de 10 segundos para conexões
+    connectTimeout: 50000, // Timeout de 10 segundos para conexões
 });
 
 // Testa a conexão inicial com async/await
