@@ -6,8 +6,9 @@ const app = express();
 
 app.use(express.json());
 
+// Configurações CORS
 const corsOptions = {
-    origin: '*', // Origem permitida
+    origin: ['http://localhost:3000', 'https://meusite.com'], // Permite apenas essas origens
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
     credentials: true, // Se precisar de credenciais
@@ -19,7 +20,8 @@ app.use(cors(corsOptions));
 app.use(Routes);
 
 app.get('/', (req, res) => {
-    res.send('Hello World, chove em sp');
+    console.log('Rota inicial acessada');
+    res.send('Hello World, chove em SP');
 });
 
 export default app;

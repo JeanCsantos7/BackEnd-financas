@@ -1,4 +1,4 @@
-import Conexao from '../database/database';
+import pool from '../database/database';
 
 interface Dados {
     descricao: string;
@@ -11,7 +11,7 @@ class ReceitasModel {
         const sql =
             'INSERT INTO receitas (descricao, valor, categoria) VALUES(?, ?, ?)';
         return new Promise((resolve, reject) => {
-            Conexao.query(
+            pool.query(
                 sql,
                 [bodyDetail.descricao, bodyDetail.valor, bodyDetail.categoria],
                 (error, result) => {
@@ -29,7 +29,7 @@ class ReceitasModel {
     findReceitas() {
         const sql = 'SELECT * FROM receitas';
         return new Promise((resolve, reject) => {
-            Conexao.query(sql, (error, result) => {
+            pool.query(sql, (error, result) => {
                 if (error) {
                     return reject(error);
                 }
@@ -44,7 +44,7 @@ class ReceitasModel {
         const sql =
             'UPDATE receitas SET descricao=?, valor=?, categoria=? WHERE id=?';
         return new Promise((resolve, reject) => {
-            Conexao.query(
+            pool.query(
                 sql,
                 [
                     bodyDetail.descricao,
@@ -63,10 +63,11 @@ class ReceitasModel {
             );
         });
     }
+
     deleteReceitas(idParams: number) {
         const sql = 'DELETE FROM receitas WHERE id=?';
         return new Promise((resolve, reject) => {
-            Conexao.query(sql, idParams, (error, result) => {
+            pool.query(sql, idParams, (error, result) => {
                 if (error) {
                     reject(error);
                 }
@@ -80,7 +81,7 @@ class ReceitasModel {
     totalReceitas() {
         const sql = 'SELECT SUM(valor) AS total FROM railway.receitas;';
         return new Promise((resolve, reject) => {
-            Conexao.query(sql, (error, result) => {
+            pool.query(sql, (error, result) => {
                 if (error) {
                     reject(error);
                 }

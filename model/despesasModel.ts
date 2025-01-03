@@ -1,4 +1,4 @@
-import Conexao from '../database/database';
+import pool from '../database/database';
 
 interface Dados {
     id: number;
@@ -12,23 +12,23 @@ class DespesasModel {
         const sql =
             'INSERT INTO despesas (descricao, valor, categoria) VALUES(?,?,?)';
         return new Promise((resolve, reject) => {
-            Conexao.query(
+            pool.query(
                 sql,
                 [bodyDetail.descricao, bodyDetail.valor, bodyDetail.categoria],
                 (error, result) => {
                     if (error) {
                         reject(error);
                     }
-
                     return resolve(result);
                 },
             );
         });
     }
+
     findDespesas() {
         const sql = 'SELECT * FROM despesas';
         return new Promise((resolve, reject) => {
-            Conexao.query(sql, (error, result) => {
+            pool.query(sql, (error, result) => {
                 if (error) {
                     reject(error);
                 }
@@ -36,11 +36,12 @@ class DespesasModel {
             });
         });
     }
-    updateDespesas(bodyDetail: Dados, idParams: Number) {
+
+    updateDespesas(bodyDetail: Dados, idParams: number) {
         const sql =
             'UPDATE despesas SET descricao=?, valor=?, categoria=? WHERE id=?';
         return new Promise((resolve, reject) => {
-            Conexao.query(
+            pool.query(
                 sql,
                 [
                     bodyDetail.descricao,
@@ -52,20 +53,19 @@ class DespesasModel {
                     if (error) {
                         reject(error);
                     }
-
                     return resolve(result);
                 },
             );
         });
     }
-    deleteDespesas(idParam: Number) {
+
+    deleteDespesas(idParam: number) {
+        const sql = 'DELETE FROM despesas WHERE id=?';
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM despesas WHERE id=?';
-            Conexao.query(sql, idParam, (error, result) => {
+            pool.query(sql, [idParam], (error, result) => {
                 if (error) {
                     reject(error);
                 }
-
                 return resolve(result);
             });
         });
@@ -74,7 +74,7 @@ class DespesasModel {
     totalDespesas() {
         const sql = 'SELECT SUM(valor) AS total FROM railway.despesas;';
         return new Promise((resolve, reject) => {
-            Conexao.query(sql, (error, result) => {
+            pool.query(sql, (error, result) => {
                 if (error) {
                     reject(error);
                 }
