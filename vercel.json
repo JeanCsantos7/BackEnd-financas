@@ -4,8 +4,20 @@
         {
             "src": "server.ts",
             "use": "@vercel/node",
-            "config": { "includeFiles": ["dist/**"] }
+            "config": {
+                "includeFiles": ["dist/**"]
+            }
         }
     ],
-    "routes": [{ "src": "/(.*)", "dest": "/server.ts" }]
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/server.ts"
+        }
+    ],
+    "functions": {
+        "api/**/*.js": {
+            "maxDuration": 50
+        }
+    }
 }
