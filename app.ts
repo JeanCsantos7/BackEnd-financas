@@ -8,14 +8,24 @@ app.use(express.json());
 
 // Configurações CORS
 const corsOptions = {
-    origin: ['https://controlefinanceiro7.netlify.app'], // Definindo as origens permitidas
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    origin: ['https://controlefinanceiro7.netlify.app'], // Origem permitida (ajuste conforme necessário)
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
-    credentials: true, // Se precisar de credenciais
+    credentials: true, // Permitir envio de cookies/credenciais
 };
 
-// Aplicando o middleware CORS com as opções
+// Middleware de logs para monitorar requisições
+app.use((req, res, next) => {
+    console.log('Requisição recebida:');
+    console.log('Método:', req.method);
+    console.log('URL:', req.url);
+    console.log('Headers:', req.headers);
+    next();
+});
+
+// Aplicando o middleware CORS com as opções configuradas
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Para lidar com requisições pré-flight (OPTIONS)
 
 // Rota principal para teste
 app.get('/', (req, res) => {
